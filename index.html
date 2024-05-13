@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="pdfForm">
+          <div class="form-group mb-2">
+            <label class="mb-1" for="customerName">Customer Name</label>
+            <input type="text" class="form-control" id="customerName" placeholder="Enter Customer Name" required>
+          </div>
+          <div class="form-group mb-2">
+            <label class="mb-1" for="serviceName">Service Name</label>
+            <input type="text" class="form-control" id="serviceName" placeholder="Enter Service Name" required>
+          </div>
+          <div class="form-group">
+            <label class="mb-1" for="fromName">From Name</label>
+            <input type="text" class="form-control" id="fromName" placeholder="Enter From Name" required>
+          </div>
+          <button type="button" class="btn btn-primary mt-4" onclick="generatePDF()">Generate PDF</button>
+        </form>
+      </div>
+
+  <script>
+    function generatePDF() {
+      var customerName = document.getElementById("customerName").value;
+      var serviceName = document.getElementById("serviceName").value;
+      var fromName = document.getElementById("fromName").value;
+
+      var doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'in',
+        format: 'a4'
+      });
+
+      // Add background image
+      var img = new Image();
+      img.onload = function() {
+        doc.addImage(this, 'JPEG', 0, 0, 11.693, 8.268);
+    
+        // Customize text
+        doc.setFontSize(32);
+        doc.setTextColor(255, 255, 255);
+        doc.setFontType("bold");
+
+        // Add content
+        doc.text(customerName, 3, 4.8);
+        doc.text(serviceName, 3.7, 5.8);
+        doc.text(fromName, 3.7, 6.7);
+
+        doc.save(`${customerName} gift.pdf`);
+      };
+      img.src = './gift_bg.png'; // Replace 'background.jpg' with the path to your background image
+    }
+  </script>
+</body>
+</html>
